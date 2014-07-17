@@ -1,0 +1,42 @@
+diff --git a/xwalk/runtime/browser/ui/native_app_window_views.cc b/xwalk/runtime/browser/ui/native_app_window_views.cc
+index fa819e2..dc9e6a5 100644
+--- a/xwalk/runtime/browser/ui/native_app_window_views.cc
++++ b/xwalk/runtime/browser/ui/native_app_window_views.cc
+@@ -14,9 +14,7 @@
+ #include "xwalk/runtime/browser/ui/xwalk_views_delegate.h"
+ #include "xwalk/runtime/common/xwalk_notification_types.h"
+ 
+-#if defined(OS_WIN)
+ #include "ui/views/window/native_frame_view.h"
+-#endif
+ 
+ #if defined(OS_TIZEN)
+ #include "xwalk/runtime/browser/ui/native_app_window_tizen.h"
+@@ -232,12 +230,10 @@ bool NativeAppWindowViews::CanMaximize() const {
+   return resizable_ && maximum_size_.IsEmpty();
+ }
+ 
+-#if defined(OS_WIN)
+ views::NonClientFrameView* NativeAppWindowViews::CreateNonClientFrameView(
+     views::Widget* widget) {
+   return new views::NativeFrameView(widget);
+ }
+-#endif
+ 
+ ////////////////////////////////////////////////////////////
+ // views::View implementation
+diff --git a/xwalk/runtime/browser/ui/native_app_window_views.h b/xwalk/runtime/browser/ui/native_app_window_views.h
+index 7c72290..00231d2 100644
+--- a/xwalk/runtime/browser/ui/native_app_window_views.h
++++ b/xwalk/runtime/browser/ui/native_app_window_views.h
+@@ -78,10 +78,8 @@ class NativeAppWindowViews : public NativeAppWindow,
+       gfx::Rect* bounds, ui::WindowShowState* show_state) const OVERRIDE;
+   virtual bool CanResize() const OVERRIDE;
+   virtual bool CanMaximize() const OVERRIDE;
+-#if defined(OS_WIN)
+   virtual views::NonClientFrameView* CreateNonClientFrameView(
+       views::Widget* widget) OVERRIDE;
+-#endif
+   // views::View implementation.
+   virtual void ChildPreferredSizeChanged(views::View* child) OVERRIDE;
+   virtual void OnFocus() OVERRIDE;
