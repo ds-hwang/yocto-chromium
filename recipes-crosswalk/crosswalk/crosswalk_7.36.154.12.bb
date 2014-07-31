@@ -39,7 +39,7 @@ do_configure() {
 }
 
 do_compile() {
-    ninja -j${@oe.utils.cpu_count()} -C ${S}/out/Release xwalk
+    ninja ${PARALLEL_MAKE} -C ${S}/out/Release xwalk
 }
 
 do_install() {

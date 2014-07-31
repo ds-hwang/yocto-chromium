@@ -17,7 +17,7 @@ do_configure() {
 }
 
 do_compile() {
-    ninja -j${@oe.utils.cpu_count()} -C ${S}/out/Default
+    ninja ${PARALLEL_MAKE} -C ${S}/out/Default
 }
 
 do_install() {
