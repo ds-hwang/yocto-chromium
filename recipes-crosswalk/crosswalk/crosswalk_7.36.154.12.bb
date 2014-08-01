@@ -4,7 +4,7 @@ LICENSE = "BSD"
 
 DEPENDS = "ninja-native pkgconfig-native gtk+ glib-2.0 pulseaudio libxss libdrm nss elfutils libxslt icu fontconfig harfbuzz"
 
-SRC_URI += "https://download.01.org/crosswalk/releases/crosswalk/source/beta/${PV}/crosswalk-${PV}.tar.xz;name=tarball \
+SRC_URI += "https://download.01.org/crosswalk/releases/crosswalk/source/crosswalk-${PV}.tar.xz;name=tarball \
     file://use_window_manager_native_decorations.patch;patch=1 \
     file://include.gypi \
     file://defaults.gypi"
