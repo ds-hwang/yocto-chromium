@@ -204,7 +204,7 @@ LIC_FILES_CHKSUM = "file://${S}/xwalk/LICENSE;md5=c3d4637b0c8ceffb4111debb006efe
     file://${S}/third_party/dom_distiller_js/LICENSE;md5=8f039c990da21fa596a4d9f3d3188fce \
     file://${S}/third_party/expat/files/COPYING;md5=1b71f681713d1256e1c23b0890920874 \
     file://${S}/third_party/eyesfree/LICENSE;md5=2326ae5ca22e299a528433bebb02131f \
-    file://${S}/third_party/ffmpeg/LICENSE;md5=436e560231d1a173f8695372f4c03d7b \
+    file://${S}/third_party/ffmpeg/LICENSE;md5=5de86fddc64b7d29c2a56fe2c72c919e \
     file://${S}/third_party/fips181/COPYING;md5=da26b18c1a03a3cae0abccae554029c6 \
     file://${S}/third_party/flac/COPYING.Xiph;md5=df8975c0225f83ed7b567587ed953b83 \
     file://${S}/third_party/flot/LICENSE.txt;md5=fe1ea2158d814e4fc7227c8c6ccd7ab3 \
@@ -312,8 +312,8 @@ SRC_URI += "https://download.01.org/crosswalk/releases/crosswalk/source/crosswal
     file://include.gypi \
     file://defaults.gypi"
 
-SRC_URI[tarball.md5sum] = "b20ebbbb6f87799ab861f0f1065cebbb"
-SRC_URI[tarball.sha256sum] = "d9d925302c7091f1febd7dda93f6fd1aa041e2760fa90ec76f34c5eefa134f18"
+SRC_URI[tarball.md5sum] = "4a0cf20e9f05e5521749ed0e532cc984"
+SRC_URI[tarball.sha256sum] = "5fe38d40dccc8ae22e66c857a08c5ce93c5b7c86a84a719755c2addb350f3bfb"
 
 COMPATIBLE_MACHINE = "(-)"
 COMPATIBLE_MACHINE_i586 = "(.*)"
