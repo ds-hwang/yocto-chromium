@@ -162,7 +162,8 @@ LICENSE_third_party/libjpeg_turbo = "BSD-3-Clause"
 
 S = "${WORKDIR}/crosswalk-${PV}"
 
-LIC_FILES_CHKSUM = "file://${S}/xwalk/LICENSE;md5=c3d4637b0c8ceffb4111debb006efe58 \
+LIC_FILES_CHKSUM = "\
+    file://${S}/xwalk/LICENSE;md5=c3d4637b0c8ceffb4111debb006efe58 \
     file://${S}/LICENSE.chromium_os;md5=87dd8458232da630f5617873d42d8350 \
     file://${S}/LICENSE;md5=537e0b52077bf0a616d0a0c8a79bc9d5 \
     file://${S}/base/third_party/dmg_fp/LICENSE;md5=0893720de1a2e17053089dc16f743e11 \
@@ -303,14 +304,14 @@ LIC_FILES_CHKSUM = "file://${S}/xwalk/LICENSE;md5=c3d4637b0c8ceffb4111debb006efe
     file://${S}/url/third_party/mozilla/LICENSE.txt;md5=437ced1e9b232651b0912a9594da43b2 \
     file://${S}/v8/LICENSE.strongtalk;md5=956a43818dd13f2e93088fc2c93589d2 \
     file://${S}/v8/LICENSE;md5=4fbc731ec49a1773a0db52c6b0eabb87 \
-    file://${S}/webkit/LICENSE;md5=11e90d553b211de885f245900c4ccf89"
+    file://${S}/webkit/LICENSE;md5=11e90d553b211de885f245900c4ccf89 \
+    "
 
-DEPENDS = "ninja-native pkgconfig-native gtk+ glib-2.0 pulseaudio libxss libdrm nss elfutils libxslt icu fontconfig harfbuzz"
-
-SRC_URI += "https://download.01.org/crosswalk/releases/crosswalk/source/crosswalk-${PV}.tar.xz;name=tarball \
+SRC_URI += "\
+    https://download.01.org/crosswalk/releases/crosswalk/source/crosswalk-${PV}.tar.xz;name=tarball \
     file://use_window_manager_native_decorations.patch;patch=1 \
     file://include.gypi \
-    file://defaults.gypi"
+    "
 
 SRC_URI[tarball.md5sum] = "4a0cf20e9f05e5521749ed0e532cc984"
 SRC_URI[tarball.sha256sum] = "5fe38d40dccc8ae22e66c857a08c5ce93c5b7c86a84a719755c2addb350f3bfb"
@@ -322,6 +323,80 @@ COMPATIBLE_MACHINE_armv6 = "(.*)"
 COMPATIBLE_MACHINE_armv7a = "(.*)"
 
 inherit gettext
+
+DEPENDS = "\
+    elfutils \
+    expat \
+    flac \
+    fontconfig \
+    glib-2.0 \
+    gtk+ \
+    harfbuzz \
+    jpeg \
+    libevent \
+    libpng \
+    libusb \
+    libxslt \
+    libxss \
+    ninja-native \
+    nss \
+    openssl \
+    pciutils \
+    pkgconfig-native \
+    pulseaudio \
+    speex \
+    yasm-native \
+    "
+
+DEFAULT_CONFIGURATION = "\
+    -Dcomponent=static_library \
+    -Ddisable_nacl=1 \
+    -Denable_printing=0 \
+    -Dlinux_use_bundled_binutils=0 \
+    -Dlinux_use_bundled_gold=0 \
+    -Dlinux_use_gold_flags=0 \
+    -Dremoting=0 \
+    -Duse_cups=0 \
+    -Duse_gio=0 \
+    -Duse_gnome_keyring=0 \
+    -Duse_kerberos=0 \
+    -Duse_system_fontconfig=1 \
+    -Duse_system_expat=1 \
+    -Duse_system_flac=1 \
+    -Duse_system_harfbuzz=1 \
+    -Duse_system_libevent=1 \
+    -Duse_system_libjpeg=1 \
+    -Duse_system_libpng=1 \
+    -Duse_system_libusb=1 \
+    -Duse_system_libxslt=1 \
+    -Duse_system_openssl=1 \
+    -Duse_system_speex=1 \
+    -Duse_system_yasm=1 \
+    "
+
+# Yocto's libav doesn't fully replace ffmpeg,
+# icu is old and is missing a few symbols,
+# libxml2 is also is a bit old and has missing
+# symbols, Chromium has some patches on sqlite
+# and zlib is missing minizip/unzip.h.
+# -Duse_system_ffmpeg=1
+# -Duse_system_icu=1
+# -Duse_system_libxml=1
+# -Duse_system_sqlite=1
+# -Duse_system_zlib=1
+
+# Not available on Yocto, so we use
+# what comes bundled with Chromium.
+# -Duse_system_jsoncpp=1
+# -Duse_system_libvpx=1
+# -Duse_system_libwebp=1
+# -Duse_system_libxnvctrl=1
+# -Duse_system_opus=1
+# -Duse_system_protobuf=1
+# -Duse_system_re2=1
+# -Duse_system_skia=1
+# -Duse_system_snappy=1
+# -Duse_system_v8=1
 
 do_configure() {
     cd ${S}
@@ -335,7 +410,8 @@ do_configure() {
     export CC_host="gcc"
     export CXX_host="g++"
 
-    xwalk/gyp_xwalk --depth=. -I${WORKDIR}/defaults.gypi -I${WORKDIR}/include.gypi
+    build/linux/unbundle/replace_gyp_files.py ${DEFAULT_CONFIGURATION}
+    xwalk/gyp_xwalk --depth=. ${DEFAULT_CONFIGURATION} -I${WORKDIR}/include.gypi
 }
 
 do_compile() {
