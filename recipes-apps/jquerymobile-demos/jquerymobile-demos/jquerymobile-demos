@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec xwalk --ignore-gpu-blacklist /usr/lib/jquerymobile-demos/index.html
