@@ -341,6 +341,7 @@ DEPENDS = "\
     ninja-native \
     nss \
     openssl \
+    pango \
     pciutils \
     pkgconfig-native \
     pulseaudio \
