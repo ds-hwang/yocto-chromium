@@ -4,7 +4,7 @@ LICENSE = "BSD"
 DEPENDS = "ninja-native"
 RDEPENDS_${PN} = "crosswalk"
 
-SRC_URI += "git://github.com/tmpsantos/crosswalk-example.git;rev=a977652b0abcccc4c91bd05e2974e4b756f936cb \
+SRC_URI += "git://github.com/tmpsantos/crosswalk-example.git;rev=3a792af9ce13dde6d907b1da1161fd23b786dd7b \
     file://crosswalk-example.desktop \
     file://crosswalk.png"
 
