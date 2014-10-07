@@ -1,0 +1,9 @@
+[Unit]
+Description=A window manager experiment written in Javascript, HTML5 and CSS3
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/ventus
+
+[Install]
+WantedBy=multi-user.target

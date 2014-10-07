@@ -1,0 +1,12 @@
+diff --git a/examples/desktop/index.html b/examples/desktop/index.html
+index c2e7198..0605d22 100644
+--- a/examples/desktop/index.html
++++ b/examples/desktop/index.html
+@@ -7,7 +7,6 @@
+         <meta charset="utf-8">
+         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+         <title>Window Manager Experiment</title>
+-        <meta name="viewport" content="width=1224">
+ 
+         <link href='css/normalize.css' rel='stylesheet' type='text/css' />
+         <link href='css/desktop.css' rel='stylesheet' type='text/css' />
