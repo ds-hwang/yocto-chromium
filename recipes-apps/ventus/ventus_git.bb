@@ -2,11 +2,19 @@ DESCRIPTION = "A window manager experiment written in Javascript, HTML5 and CSS3
 HOMEPAGE = "http://www.rlamana.es/ventus"
 LICENSE = "MIT"
 
-RDEPENDS_${PN} = "crosswalk"
+RDEPENDS_${PN} = "\
+    crosswalk \
+    crosswalk-example \
+    emberwind \
+    hexgl \
+    jquerymobile-demos \
+    webgl-motion-detector \
+    webrtc \
+    "
 
 SRC_URI += "\
     git://github.com/rlamana/Ventus.git;rev=27ddc5e296d6f95737534abe2727e95a1a741b33 \
-    file://auto_scale.patch;patch=1 \
+    file://crosswalk_wm.patch;patch=1 \
     file://init \
     file://ventus \
     file://ventus.service \
