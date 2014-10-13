@@ -333,6 +333,7 @@ DEPENDS = "\
     gtk+ \
     harfbuzz \
     jpeg \
+    libdrm \
     libevent \
     libpng \
     libusb \
