@@ -331,7 +331,8 @@ LIC_FILES_CHKSUM = "\
 
 SRC_URI += "\
     https://download.01.org/crosswalk/releases/crosswalk/source/crosswalk-${PV}.tar.xz;name=tarball \
-    file://use_window_manager_native_decorations.patch;patch=1 \
+    file://use_window_manager_native_decorations.patch \
+    file://pick_yocto_compiler.patch \
     file://include.gypi \
     "
 
@@ -371,7 +372,11 @@ DEPENDS = "\
     yasm-native \
     "
 
+# Special configuration for ARM builds
+ARMFPABI_armv7a = "${@bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', '-Darm_float_abi=hard', '-Darm_float_abi=softfp', d)}"
+
 DEFAULT_CONFIGURATION = "\
+    ${ARMFPABI} \
     -Dcomponent=static_library \
     -Dclang=0 \
     -Dhost_clang=0 \
@@ -379,6 +384,8 @@ DEFAULT_CONFIGURATION = "\
     -Dlinux_use_bundled_gold=0 \
     -Dlinux_use_debug_fission=0 \
     -Dlinux_use_gold_flags=0 \
+    -Drelease_extra_cflags='-Wno-error=unused-local-typedefs' \
+    -Dsysroot='' \
     -Ddisable_nacl=1 \
     -Denable_printing=0 \
     -Dremoting=0 \
