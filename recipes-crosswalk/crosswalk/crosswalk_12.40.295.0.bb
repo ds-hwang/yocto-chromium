@@ -363,7 +363,6 @@ DEPENDS = "\
     libxss \
     ninja-native \
     nss \
-    openssl \
     pango \
     pciutils \
     pkgconfig-native \
@@ -393,7 +392,6 @@ DEFAULT_CONFIGURATION = "\
     -Duse_system_libpng=1 \
     -Duse_system_libusb=1 \
     -Duse_system_libxslt=1 \
-    -Duse_system_openssl=1 \
     -Duse_system_speex=1 \
     -Duse_system_yasm=1 \
     "
