@@ -1,5 +1,5 @@
 diff --git a/xwalk/runtime/browser/ui/native_app_window_views.cc b/xwalk/runtime/browser/ui/native_app_window_views.cc
-index fa819e2..dc9e6a5 100644
+index 1cb3540..221273f 100644
 --- a/xwalk/runtime/browser/ui/native_app_window_views.cc
 +++ b/xwalk/runtime/browser/ui/native_app_window_views.cc
 @@ -14,9 +14,7 @@
@@ -12,8 +12,8 @@ index fa819e2..dc9e6a5 100644
  
  #if defined(OS_TIZEN)
  #include "xwalk/runtime/browser/ui/native_app_window_tizen.h"
-@@ -232,12 +230,10 @@ bool NativeAppWindowViews::CanMaximize() const {
-   return resizable_ && maximum_size_.IsEmpty();
+@@ -235,12 +233,10 @@ bool NativeAppWindowViews::CanMinimize() const {
+   return true;
  }
  
 -#if defined(OS_WIN)
@@ -26,17 +26,17 @@ index fa819e2..dc9e6a5 100644
  ////////////////////////////////////////////////////////////
  // views::View implementation
 diff --git a/xwalk/runtime/browser/ui/native_app_window_views.h b/xwalk/runtime/browser/ui/native_app_window_views.h
-index 7c72290..00231d2 100644
+index 413bd0b..4a36036 100644
 --- a/xwalk/runtime/browser/ui/native_app_window_views.h
 +++ b/xwalk/runtime/browser/ui/native_app_window_views.h
-@@ -78,10 +78,8 @@ class NativeAppWindowViews : public NativeAppWindow,
-       gfx::Rect* bounds, ui::WindowShowState* show_state) const OVERRIDE;
-   virtual bool CanResize() const OVERRIDE;
-   virtual bool CanMaximize() const OVERRIDE;
+@@ -79,10 +79,8 @@ class NativeAppWindowViews : public NativeAppWindow,
+   bool CanResize() const override;
+   bool CanMaximize() const override;
+   bool CanMinimize() const override;
 -#if defined(OS_WIN)
-   virtual views::NonClientFrameView* CreateNonClientFrameView(
-       views::Widget* widget) OVERRIDE;
+   views::NonClientFrameView* CreateNonClientFrameView(
+       views::Widget* widget) override;
 -#endif
    // views::View implementation.
-   virtual void ChildPreferredSizeChanged(views::View* child) OVERRIDE;
-   virtual void OnFocus() OVERRIDE;
+   void ChildPreferredSizeChanged(views::View* child) override;
+   void OnFocus() override;
