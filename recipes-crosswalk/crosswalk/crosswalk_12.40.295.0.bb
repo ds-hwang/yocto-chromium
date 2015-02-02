@@ -373,11 +373,14 @@ DEPENDS = "\
 
 DEFAULT_CONFIGURATION = "\
     -Dcomponent=static_library \
-    -Ddisable_nacl=1 \
-    -Denable_printing=0 \
+    -Dclang=0 \
+    -Dhost_clang=0 \
     -Dlinux_use_bundled_binutils=0 \
     -Dlinux_use_bundled_gold=0 \
+    -Dlinux_use_debug_fission=0 \
     -Dlinux_use_gold_flags=0 \
+    -Ddisable_nacl=1 \
+    -Denable_printing=0 \
     -Dremoting=0 \
     -Duse_cups=0 \
     -Duse_gio=0 \
@@ -433,6 +436,7 @@ do_configure() {
     export CXX_host="g++"
 
     build/linux/unbundle/replace_gyp_files.py ${DEFAULT_CONFIGURATION}
+    xwalk/tools/upstream_revision.py -r $(grep ^blink_upstream_rev xwalk/DEPS.xwalk |cut -d\' -f2) -o xwalk/build/UPSTREAM.blink
     xwalk/gyp_xwalk --depth=. ${DEFAULT_CONFIGURATION} -I${WORKDIR}/include.gypi
 }
 
@@ -445,7 +449,6 @@ do_install() {
     install -m 0755 ${S}/out/Release/xwalk ${D}${libdir}/xwalk/xwalk
     install -m 0644 ${S}/out/Release/icudtl.dat ${D}${libdir}/xwalk/icudtl.dat
     install -m 0644 ${S}/out/Release/libffmpegsumo.so ${D}${libdir}/xwalk/libffmpegsumo.so
-    install -m 0644 ${S}/out/Release/libosmesa.so ${D}${libdir}/xwalk/libosmesa.so
     install -m 0644 ${S}/out/Release/xwalk.pak ${D}${libdir}/xwalk/xwalk.pak
 
     install -d ${D}${bindir}/
