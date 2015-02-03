@@ -6,6 +6,7 @@ RDEPENDS_${PN} = "crosswalk"
 
 SRC_URI += "git://github.com/BKcore/HexGL.git;rev=182a636fa01797cea0a92aa58199931e116506b1 \
     file://legalcode \
+    file://manifest.json \
     file://hexgl.desktop \
     file://hexgl"
 
@@ -20,6 +21,7 @@ do_install() {
     install -m 0644 ${S}/index.html ${D}${libdir}/hexgl
     install -m 0644 ${S}/launch.coffee ${D}${libdir}/hexgl
     install -m 0644 ${S}/launch.js ${D}${libdir}/hexgl
+    install -m 0644 ${WORKDIR}/manifest.json ${D}${libdir}/hexgl
     cp -Pr ${S}/bkcore ${D}${libdir}/hexgl/
     cp -Pr ${S}/bkcore.coffee ${D}${libdir}/hexgl/
     cp -Pr ${S}/css ${D}${libdir}/hexgl/

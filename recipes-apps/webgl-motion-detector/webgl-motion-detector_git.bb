@@ -5,6 +5,7 @@ LICENSE = "Proprietary"
 RDEPENDS_${PN} = "crosswalk"
 
 SRC_URI += "git://github.com/MarkusSprunck/webgl-motion-detector.git;rev=c71881d60d93b0676378c4a49d8d213598d75f17 \
+    file://manifest.json \
     file://webgl-motion-detector.desktop \
     file://webgl-motion-detector.png \
     file://webgl-motion-detector"
@@ -16,6 +17,7 @@ LIC_FILES_CHKSUM = "file://${S}/README.md;md5=82393b214d2fd20e8943b5c3a83e4639"
 do_install() {
     install -d ${D}${libdir}/webgl-motion-detector/
     install -m 0644 ${WORKDIR}/webgl-motion-detector.png ${D}${libdir}/webgl-motion-detector/webgl-motion-detector.png
+    install -m 0644 ${WORKDIR}/manifest.json ${D}${libdir}/webgl-motion-detector/manifest.json
     cp -Pr ${S}/webgl-motion-detector/* ${D}${libdir}/webgl-motion-detector/
 
     install -d ${D}${bindir}/

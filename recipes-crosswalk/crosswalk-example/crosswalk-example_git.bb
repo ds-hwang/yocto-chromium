@@ -4,7 +4,7 @@ LICENSE = "BSD"
 DEPENDS = "ninja-native"
 RDEPENDS_${PN} = "crosswalk"
 
-SRC_URI += "git://github.com/tmpsantos/crosswalk-example.git;rev=3a792af9ce13dde6d907b1da1161fd23b786dd7b \
+SRC_URI += "git://github.com/tmpsantos/crosswalk-example.git;rev=da99f63fa2a7163e4b92cc4a507b9cbd1d72c02f \
     file://crosswalk-example.desktop \
     file://crosswalk.png"
 
@@ -25,6 +25,7 @@ do_install() {
     install -m 0644 ${WORKDIR}/crosswalk.png ${D}${libdir}/xwalk-example/crosswalk.png
     install -m 0644 ${S}/src/dygraph-combined.js ${D}${libdir}/xwalk-example/dygraph-combined.js
     install -m 0644 ${S}/src/index.html ${D}${libdir}/xwalk-example/index.html
+    install -m 0644 ${S}/src/manifest.json ${D}${libdir}/xwalk-example/manifest.json
     install -m 0644 ${S}/out/Default/libcpu.so ${D}${libdir}/xwalk-example/libcpu.so
 
     install -d ${D}${datadir}/applications/
