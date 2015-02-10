@@ -40,7 +40,7 @@ do_compile() {
 do_install() {
     install -d ${D}${libdir}/ventus/
     cp -Pr ${S}/* ${D}${libdir}/ventus/
-    install -m 0755 ${WORKDIR}/manifest.json ${D}${libdir}/ventus/examples/simple/
+    install -m 0755 ${WORKDIR}/manifest.json ${D}${libdir}/ventus/
 
     install -d ${D}${bindir}/
     install -m 0755 ${WORKDIR}/ventus ${D}${bindir}/ventus
