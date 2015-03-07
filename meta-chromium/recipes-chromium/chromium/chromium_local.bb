@@ -21,8 +21,13 @@ CHROMIUM_EXTRA_GYP_DEFINES += " \
 "
 
 # yocto doesn't include
+## use_gnome_keyring : gnome keyring library
+## use_kerberos : libkrb5
+## disable_fatal_linker_warnings : hidden symbol 'sqlite3_XXX'
 CHROMIUM_EXTRA_GYP_DEFINES += " \
     -Duse_gnome_keyring=0 \
+    -Duse_kerberos=0 \
+    -Ddisable_fatal_linker_warnings=1 \
 "
 
 GOLD_DEFINES = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '', '-Dlinux_use_gold_binary=0 -Dlinux_use_gold_flags=0', d)}"
