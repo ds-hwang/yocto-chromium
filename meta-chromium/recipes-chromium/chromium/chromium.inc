@@ -173,7 +173,7 @@ do_configure() {
 
 do_compile() {
 	# build with ninja
-	ninja -C ${S}/${CHROMIUM_OUT_DIR}/Release chrome chrome_sandbox
+	ninja -C ${S}/${CHROMIUM_OUT_DIR}/Release ${PARALLEL_MAKE} chrome chrome_sandbox
 }
 
 do_install() {
