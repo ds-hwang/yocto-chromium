@@ -117,7 +117,7 @@ PACKAGECONFIG ??= "use-egl"
 # automatically and silently fall back to GLX
 PACKAGECONFIG[use-egl] = ",,virtual/egl virtual/libgles2"
 
-EXTRA_OEGYP =	" \
+CHROMIUM_EXTRA_GYP_DEFINES += " \
 	-Dangle_use_commit_id=0 \
 	-Dclang=0 \
 	-Dhost_clang=0 \
@@ -162,7 +162,7 @@ python() {
         d.appendVar('DEPENDS_remove', "gtk+ libxss")
         d.appendVar('DEPENDS', "virtual/egl udev")
         # -Duse_brlapi=0 -Dremoting=0 for lack of some libraries.
-        d.appendVar('EXTRA_OEGYP', "-Duse_ozone=1 -Dchromeos=1 -Dozone_platform_gbm=1 -Duse_brlapi=0 -Dremoting=0")
+        d.appendVar('CHROMIUM_EXTRA_GYP_DEFINES', "-Duse_ozone=1 -Dchromeos=1 -Dozone_platform_gbm=1 -Duse_brlapi=0 -Dremoting=0")
         d.appendVar('RDEPENDS_chromium', "libegl-mesa liberation-fonts libgbm libglapi libgles1-mesa libgles2-mesa libudev mesa-megadriver")
 }
 
@@ -176,7 +176,7 @@ do_configure() {
 	CXX="${CXX}" export CXX
 	CC_host="${BUILD_CC}" export CC_host
 	CXX_host="${BUILD_CXX}" export CXX_host
-	build/gyp_chromium --depth=. ${EXTRA_OEGYP}
+	build/gyp_chromium --depth=. ${CHROMIUM_EXTRA_GYP_DEFINES}
 }
 
 do_compile() {

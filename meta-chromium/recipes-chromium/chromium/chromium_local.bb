@@ -9,7 +9,7 @@ SRC_URI = "\
         file://google-chrome.desktop \
         "
 
-EXTRA_OEGYP += "\
+CHROMIUM_EXTRA_GYP_DEFINES += "\
         -Dlinux_use_bundled_binutils=0 \
         -Dlinux_use_debug_fission=0 \
         "
