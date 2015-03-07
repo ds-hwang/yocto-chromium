@@ -149,6 +149,8 @@ CHROMIUM_X11_GYP_DEFINES = ""
 CHROMIUM_WAYLAND_DEPENDS = "wayland libxkbcommon"
 CHROMIUM_WAYLAND_GYP_DEFINES = "use_ash=1 use_aura=1 chromeos=0 use_ozone=1"
 
+CHROMIUM_ENABLE_GBM ?= "0"
+
 python() {
     if d.getVar('ENABLE_X11', True) == '1':
         d.appendVar('DEPENDS', ' %s ' % d.getVar('CHROMIUM_X11_DEPENDS', True))
@@ -156,6 +158,12 @@ python() {
     if d.getVar('ENABLE_WAYLAND', True) == '1':
         d.appendVar('DEPENDS', ' %s ' % d.getVar('CHROMIUM_WAYLAND_DEPENDS', True))
         d.appendVar('GYP_DEFINES', ' %s ' % d.getVar('CHROMIUM_WAYLAND_GYP_DEFINES', True))
+    if d.getVar('CHROMIUM_ENABLE_GBM', True) == '1':
+        d.appendVar('DEPENDS_remove', "gtk+ libxss")
+        d.appendVar('DEPENDS', "virtual/egl udev")
+        # -Duse_brlapi=0 -Dremoting=0 for lack of some libraries.
+        d.appendVar('EXTRA_OEGYP', "-Duse_ozone=1 -Dchromeos=1 -Dozone_platform_gbm=1 -Duse_brlapi=0 -Dremoting=0")
+        d.appendVar('RDEPENDS_chromium', "libegl-mesa liberation-fonts libgbm libglapi libgles1-mesa libgles2-mesa libudev mesa-megadriver")
 }
 
 do_configure() {
