@@ -173,7 +173,7 @@ do_configure() {
 
 do_compile() {
 	# build with ninja
-	ninja -C ${S}/${CHROMIUM_OUT_DIR}/Release ${PARALLEL_MAKE} chrome chrome_sandbox
+	ninja -C ${S}/${CHROMIUM_OUT_DIR}/Release ${PARALLEL_MAKE} chrome content_shell app_shell chrome_sandbox
 }
 
 do_install() {
@@ -189,6 +189,8 @@ do_install() {
 
 	install -d ${D}${bindir}/chrome/
 	install -m 0755 ${S}/${CHROMIUM_OUT_DIR}/Release/chrome ${D}${bindir}/chrome/chrome
+	install -m 0755 ${S}/${CHROMIUM_OUT_DIR}/Release/app_shell ${D}${bindir}/chrome/app_shell
+	install -m 0755 ${S}/${CHROMIUM_OUT_DIR}/Release/content_shell ${D}${bindir}/chrome/content_shell
 	install -m 0644 ${S}/${CHROMIUM_OUT_DIR}/Release/resources.pak ${D}${bindir}/chrome/
 	install -m 0644 ${S}/${CHROMIUM_OUT_DIR}/Release/icudtl.dat ${D}${bindir}/chrome/
 	install -m 0644 ${S}/${CHROMIUM_OUT_DIR}/Release/content_resources.pak ${D}${bindir}/chrome/
