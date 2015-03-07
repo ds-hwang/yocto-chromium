@@ -135,14 +135,30 @@ flash it:
 You are able now to boot the flash drive in your hardware and play around with
 Chromium browser.
 
+## Ozeon GBM
+* change `local.conf` as follows to build Chromium Ozone GBM
+ * Add "ozone-gbm" to "PACKAGECONFIG"
+ * GBM requires the latest version of kernel
+```
+PACKAGECONFIG_append_pn-chromium = " component-build ozone-gbm"
+PREFERRED_VERSION_linux-yocto = "3.17%"
+```
+
+
 # Tips
 ## ICECC
 add following lines in local.conf
 ```
-PARALLEL_MAKE = "-j 40"
+PARALLEL_MAKE = "-j 80"
 ICECC_PATH = "/home/dshwang/thirdparty/icecream/install/bin/icecc"
 INHERIT += "icecc"
 ```
+
+When you build whole yocto image, use `core-image-minimal`
+  ```
+  $ bitbake core-image-sato
+  ```
+
 
 Before `bitbake` you must exclude icecc toolchain wrapper path(e.g. `/usr/lib/icecc/bin`) from $PATH
 * Reference
@@ -162,6 +178,27 @@ ICECC[24079] 13:52:14: got exception 23 (10.237.72.78)
 
  * A1: purge annoying hardening-wrapper (which wastes my 2 days) `sudo apt-get purge hardening-wrapper hardening-includes`
  * A2: purge clang and all gcc and then reinstall only minimal gcc
+
+## Add more tools in minimal images
+* you might need "bash", "ssh", "sshfs" for more convinient embedded development.
+ * checkout [meta-openembedded](git://git.openembedded.org/meta-openembedded) and then add following lines to `bblayers.conf`
+```
+BBLAYERS ?= " \
+   ...
+  /d/workspace/yocto/meta-openembedded/meta-oe \
+  /d/workspace/yocto/meta-openembedded/meta-filesystems \
+  "
+```
+
+ * add packages you want ot `local.conf`
+```
+-EXTRA_IMAGE_FEATURES = "debug-tweaks"
++EXTRA_IMAGE_FEATURES = "debug-tweaks ssh-server-dropbear"
+
+-IMAGE_INSTALL_append = " chromium"
++IMAGE_INSTALL_append = " chromium sshfs-fuse bash"
+
+```
 
 ## my conf
 * Refer to my [local.conf](reference_conf/local.conf) and [bblayers.conf](reference_conf/bblayers.conf)
