@@ -164,7 +164,7 @@ ICECC[24079] 13:52:14: got exception 23 (10.237.72.78)
  * A2: purge clang and all gcc and then reinstall only minimal gcc
 
 ## my conf
-* Refer to my `conf/`
+* Refer to my [local.conf](reference_conf/local.conf) and [bblayers.conf](reference_conf/bblayers.conf)
 
 # Reference
 * [META Crosswalk project](https://github.com/otcshare/meta-crosswalk-embedded)
