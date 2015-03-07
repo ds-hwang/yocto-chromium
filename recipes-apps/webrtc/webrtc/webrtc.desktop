@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=WebRTC Demo
-Comment=WebRTC is an open source project that enables web browsers with Real-Time Communications (RTC) capabilities via simple Javascript APIs.
-Exec=/usr/bin/webrtc
-Terminal=false
-Icon=/usr/lib/webrtc/icon.png
-Categories=AudioVideo;

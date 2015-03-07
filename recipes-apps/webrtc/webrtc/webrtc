@@ -1,3 +1,0 @@
-#!/bin/sh
-
-exec xwalk https://apprtc.appspot.com/

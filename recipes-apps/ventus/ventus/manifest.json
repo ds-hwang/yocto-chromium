@@ -1,6 +1,0 @@
-{
-  "name": "Ventus",
-  "manifest_version": 1,
-  "xwalk_version": "1.0",
-  "start_url": "examples/simple/index.html"
-}

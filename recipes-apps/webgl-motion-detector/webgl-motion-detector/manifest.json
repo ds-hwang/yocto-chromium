@@ -1,6 +1,0 @@
-{
-  "name": "WebGL Motion Detector",
-  "manifest_version": 1,
-  "xwalk_version": "1.0",
-  "start_url": "webgl_motion_detector.html"
-}

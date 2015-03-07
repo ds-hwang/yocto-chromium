@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Emberwind
-Comment=Emberwind HTML5 is a HTML5 port of the C++ implementation of Emberwind.
-Exec=/usr/bin/emberwind
-Terminal=false
-Icon=/usr/lib/emberwind/icon_114x114.png
-Categories=Game;

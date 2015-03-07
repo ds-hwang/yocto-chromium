@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=jQueryMobile Demos
-Comment=jQuery Mobile is a HTML5-based user interface system
-Exec=/usr/bin/jquerymobile-demos
-Terminal=false
-Icon=/usr/lib/jquerymobile-demos/jquerymobile-demos.png
-Categories=Development;

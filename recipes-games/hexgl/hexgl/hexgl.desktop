@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=HexGL
-Comment=HexGL is a futuristic, fast-paced racing game
-Exec=/usr/bin/hexgl
-Terminal=false
-Icon=/usr/lib/hexgl/icon_256.png
-Categories=Game;

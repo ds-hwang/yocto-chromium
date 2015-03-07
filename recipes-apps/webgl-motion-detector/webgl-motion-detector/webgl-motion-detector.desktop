@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=WebGL Motion Detector
-Comment=Extremely Fast and Simple WebGL Motion Detector
-Exec=/usr/bin/webgl-motion-detector
-Terminal=false
-Icon=/usr/lib/webgl-motion-detector/webgl-motion-detector.png
-Categories=AudioVideo;

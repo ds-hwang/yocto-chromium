@@ -1,3 +1,0 @@
-#!/bin/sh
-
-exec xwalk --ignore-gpu-blacklist --external-extensions-path=/usr/lib/xwalk-example --disable-web-security /usr/lib/ventus/manifest.json

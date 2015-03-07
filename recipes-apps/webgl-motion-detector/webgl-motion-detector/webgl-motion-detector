@@ -1,3 +1,0 @@
-#!/bin/sh
-
-exec xwalk --ignore-gpu-blacklist /usr/lib/webgl-motion-detector/manifest.json
