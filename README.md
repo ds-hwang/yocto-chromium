@@ -1,7 +1,11 @@
+# Yocto Chromium
+Chromium recipes for yocto
+
 # Introduction
 
-Let's build Chromium on yocto. Both X11 and GBM are built in this doc.
-Acknowledge: @tmpsantos teach me everything. This doc also is copied from https://github.com/otcshare/meta-crosswalk-embedded
+Let's build Chromium on yocto. You can build both X11 and Ozone GBM. This recipes is for chromium developers who want to build chromium on yocto. You may checkout chromium source in your computer already. You will build Chromium using your local source. Yocto build system is smart enough to not copy or change your local source.
+
+Acknowledge: @tmpsantos teach me everything.
 
 I have experience to build chromium on chrome os and tizen. Yocto is way better. Yocto doesn't use chroot, so you can keep the source in another partition of storage. 
 
@@ -12,15 +16,15 @@ I have experience to build chromium on chrome os and tizen. Yocto is way better.
 
 # Design
 
-* similar to crosswalk
+* similar to [Crosswalk](https://github.com/crosswalk-project/crosswalk)
 ![Alt text](https://raw.github.com/tiagovignatti/misc/master/yoctocrosswalkembedded-arch.png "Embedded Crosswalk Project architecture overview")
 
 # Howto
 
-**Important caveat: this doc only covers x86 or x64.
-(Intel) and modern hardware containing GPU due the Chromium Ozone-GBM
-architecture. That said, we don't have plans to extend it to any other category of
-devices. For testing, development and deployment we recommend the [MinnowBoard MAX](http://www.minnowboard.org/meet-minnowboard-max/)**.
+**Important caveat: this project only covers x86 or x64. I didn't test ARM
+but there is no reason to not be possible to build for ARM.
+For Chromium Ozone-GBM, I test it on Intel Haswell and newer generation GPU. That said, we don't have plans to extend it to any other category of
+devices. For testing, development and deployment we recommend the [MinnowBoard MAX](http://www.minnowboard.org/meet-minnowboard-max/) or Intel Haswell without any external GPU**.
 
 This guide will help you to build a bootable image with the Chromium. Most of
 the toolchain needed to build comes from Yocto Poky and it's expected to use
@@ -67,7 +71,7 @@ BBLAYERS ?= " \
   /media/yocto/poky/meta \
   /media/yocto/poky/meta-yocto \
   /media/yocto/poky/meta-yocto-bsp \
-  /media/yocto/meta-browser \
+  /media/yocto/yocto-chromium/meta-chromium \
   "
   ```
 
@@ -83,47 +87,49 @@ then, set chromium configuration:
   ```
 # to use libav
 LICENSE_FLAGS_WHITELIST = "commercial"
-PREFERRED_VERSION_chromium = "local"
 # your local chromium tree
 CHROMIUM_LOCAL_PATH = "/home/dshwang/chromium/src"
+# you might use "out" directory for linux chromium already.
 CHROMIUM_OUT_DIR = "out_yocto"
 # if you want to build shared library
 PACKAGECONFIG_append_pn-chromium = " component-build"
   ```
 
-Now close the file and let's cook the package: 
+Now close the file and let's build whole yocto image including chromium also. `core-image-sato` is the referece image including window manager using X11.
+  ```
+  $ bitbake core-image-sato
+  ```
+
+You can cook only the package: 
+
   ```
   $ bitbake chromium
   ```  
 
-If you want to compile only, you can do it. It's conve
+If you want to compile only, you can do it.
   ```
   $ bitbake -c compile chromium
   ```
 
-You can build whole yocto image including chromium also.
-  ```
-  $ bitbake core-image-sato
-  ```
 
 It will take several hours to download much of the dependencies, build and
 etc. Relax now. If everything goes fine, you will have the following directory
 with the images built in inside:
   ```
   $ ls tmp/deploy/images/genericx86-64/*.hddimg
-  $ tmp/deploy/images/genericx86-64/core-image-sato-genericx86-64-20141009113028.hddimg
+  $ tmp/deploy/images/genericx86-64/core-image-sato-genericx86-64-20150307113028.hddimg
   $ tmp/deploy/images/genericx86-64/core-image-sato-genericx86-64.hddimg
   ```
 
 Make sure you have now inserted a USB flash drive, **checking the correct file
 descriptor** that Linux will be using with the `sudo fdisk -l` command. For
-example in our system it is ```/dev/sdd```, so the following is what we used to
+example in our system it is ```/dev/sdc```, so the following is what we used to
 flash it:
   ```
   $ cd tmp/deploy/images/genericx86-64/
-  $ sudo dd if=core-image-sato-genericx86-64.hddimg of=/dev/sdd
+  $ sudo dd if=core-image-sato-genericx86-64.hddimg of=/dev/sdc
   $ sync 
-  $ sudo eject /dev/sdd
+  $ sudo eject /dev/sdc
   ```
 
 You are able now to boot the flash drive in your hardware and play around with
@@ -154,59 +160,14 @@ ICECC[24079] 13:52:14: compiler did not start - compiled on 10.237.72.78
 ICECC[24079] 13:52:14: got exception 23 (10.237.72.78) 
 ```
 
- * A1: purge fucking hardening-wrapper (which wastes my 2 days) `sudo apt-get purge hardening-wrapper hardening-includes`
+ * A1: purge annoying hardening-wrapper (which wastes my 2 days) `sudo apt-get purge hardening-wrapper hardening-includes`
  * A2: purge clang and all gcc and then reinstall only minimal gcc
 
 ## my conf
-```
-diff --git a/bblayers.conf b/bblayers.conf
-index 4513d30..53e0bce 100644
---- a/bblayers.conf
-+++ b/bblayers.conf
-@@ -9,6 +9,7 @@ BBLAYERS ?= " \
-   /d/workspace/yocto/poky/meta \
-   /d/workspace/yocto/poky/meta-yocto \
-   /d/workspace/yocto/poky/meta-yocto-bsp \
-+  /d/workspace/yocto/meta-browser \
-   "
- BBLAYERS_NON_REMOVABLE ?= " \
-   /d/workspace/yocto/poky/meta \
-diff --git a/local.conf b/local.conf
-index a1d99f9..334152f 100644
---- a/local.conf
-+++ b/local.conf
-@@ -29,12 +29,12 @@
- #
- #MACHINE ?= "beaglebone"
- #MACHINE ?= "genericx86"
--#MACHINE ?= "genericx86-64"
-+MACHINE ?= "genericx86-64"
- #MACHINE ?= "mpc8315e-rdb"
- #MACHINE ?= "edgerouter"
- #
- # This sets the default machine to be qemux86 if no other machine is selected:
--MACHINE ??= "qemux86"
-+#MACHINE ??= "qemux86"
- 
- #
- # Where to place downloads
-@@ -230,3 +230,13 @@ ASSUME_PROVIDED += "libsdl-native"
- # track the version of this file when it was generated. This can safely be ignored if
- # this doesn't mean anything to you.
- CONF_VERSION = "1"
-+
-+PARALLEL_MAKE = "-j 40"
-+ICECC_PATH = "/home/dshwang/thirdparty/icecream/install/bin/icecc"
-+INHERIT += "icecc"
-+
-+LICENSE_FLAGS_WHITELIST = "commercial"
-+PREFERRED_VERSION_chromium = "local"
-+CHROMIUM_LOCAL_PATH = "/home/dshwang/chromium/src"
-+CHROMIUM_OUT_DIR = "out_yocto"
-+PACKAGECONFIG_append_pn-chromium = " component-build"
-```
+* Refer to my `conf/`
 
 # Reference
 * [META Crosswalk project](https://github.com/otcshare/meta-crosswalk-embedded)
 * [Yocto Quick start](http://www.yoctoproject.org/docs/latest/yocto-project-qs/yocto-project-qs.html)
 * [Yocto dev manual](http://www.yoctoproject.org/docs/1.6/dev-manual/dev-manual.html)
+* [meta-crosswalk-embedded project](https://github.com/otcshare/meta-crosswalk-embedded)
