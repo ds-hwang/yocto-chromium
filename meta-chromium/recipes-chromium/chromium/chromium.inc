@@ -161,7 +161,7 @@ python() {
 do_configure() {
 	cd ${S}
 	GYP_DEFINES="${GYP_DEFINES}" export GYP_DEFINES
-	GYP_GENERATOR_FLAGS="output_dir=${CHROMIUM_OUT_DIR}"
+	export GYP_GENERATOR_FLAGS="output_dir=${CHROMIUM_OUT_DIR}"
 	# replace LD with CXX, to workaround a possible gyp issue?
 	LD="${CXX}" export LD
 	CC="${CC}" export CC
