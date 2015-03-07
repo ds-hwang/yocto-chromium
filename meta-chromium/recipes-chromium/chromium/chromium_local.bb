@@ -16,10 +16,20 @@ CHROMIUM_EXTRA_GYP_DEFINES += " \
 	-Dangle_use_commit_id=0 \
 	-Dclang=0 \
 	-Dhost_clang=0 \
-    -Dlinux_use_bundled_binutils=0 \
-    -Dlinux_use_debug_fission=0 \
 	-I ${WORKDIR}/include.gypi \
 	${@bb.utils.contains('PACKAGECONFIG', 'component-build', '-I ${WORKDIR}/component-build.gypi', '', d)} \
+"
+
+# yocto doesn't include
+CHROMIUM_EXTRA_GYP_DEFINES += " \
+    -Duse_gnome_keyring=0 \
+"
+
+GOLD_DEFINES = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '', '-Dlinux_use_gold_binary=0 -Dlinux_use_gold_flags=0', d)}"
+
+# if icecc is used, don't use gold.
+CHROMIUM_EXTRA_GYP_DEFINES += " \
+    ${@bb.utils.contains('INHERIT', 'icecc', '-Dlinux_use_bundled_binutils=0 -Dlinux_use_debug_fission=0', '${GOLD_DEFINES}', d)} \
 "
 
 # Set this variable with the path of your chromium checkout after
@@ -49,8 +59,6 @@ COMPATIBLE_MACHINE_armv6 = "(.*)"
 COMPATIBLE_MACHINE_armv7a = "(.*)"
 
 inherit gettext
-
-PACKAGECONFIG ??= "use-egl"
 
 # this makes sure the dependencies for the EGL mode are present; otherwise, the configure scripts
 # automatically and silently fall back to GLX
