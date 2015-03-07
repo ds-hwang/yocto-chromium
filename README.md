@@ -144,6 +144,11 @@ PACKAGECONFIG_append_pn-chromium = " component-build ozone-gbm"
 PREFERRED_VERSION_linux-yocto = "3.17%"
 ```
 
+When you build whole yocto image, use `core-image-minimal` which doesn't include X11 and window manager.
+  ```
+  $ bitbake core-image-sato
+  ```
+
 
 # Tips
 ## ICECC
@@ -153,12 +158,6 @@ PARALLEL_MAKE = "-j 80"
 ICECC_PATH = "/home/dshwang/thirdparty/icecream/install/bin/icecc"
 INHERIT += "icecc"
 ```
-
-When you build whole yocto image, use `core-image-minimal`
-  ```
-  $ bitbake core-image-sato
-  ```
-
 
 Before `bitbake` you must exclude icecc toolchain wrapper path(e.g. `/usr/lib/icecc/bin`) from $PATH
 * Reference
