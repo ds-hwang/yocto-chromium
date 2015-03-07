@@ -45,6 +45,8 @@ CHROMIUM_OUT_DIR ?= "out"
 
 # PACKAGECONFIG explanations:
 #
+# * ozone-gbm : Chromium uses GBM instead of X11. To run it, bitbake core-image-minimal, not core-image-sato
+#
 # * use-egl : Without this packageconfig, the Chromium build will use GLX for creating an OpenGL context in X11,
 #             and regular OpenGL for painting operations. Neither are desirable on embedded platforms. With this
 #             packageconfig, EGL and OpenGL ES 2.x are used instead. On by default.
@@ -65,28 +67,26 @@ COMPATIBLE_MACHINE_armv7a = "(.*)"
 
 inherit gettext
 
-# this makes sure the dependencies for the EGL mode are present; otherwise, the configure scripts
-# automatically and silently fall back to GLX
-PACKAGECONFIG[use-egl] = ",, virtual/egl virtual/libgles2 "
-
 ARMFPABI_armv7a = "${@bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'arm_float_abi=hard', 'arm_float_abi=softfp', d)}"
-
-CHROMIUM_EXTRA_ARGS ?= " \
-	${@bb.utils.contains('PACKAGECONFIG', 'use-egl', '--use-gl=egl', '', d)} \
-"
 
 GYP_DEFINES = "${ARMFPABI} release_extra_cflags='-Wno-error=unused-local-typedefs' sysroot=''"
 
+PACKAGECONFIG[use-egl] = ",, virtual/egl virtual/libgles2 "
+PACKAGECONFIG[ozone-gbm] = ",, virtual/egl udev , libegl-mesa liberation-fonts libgbm libglapi libgles1-mesa libgles2-mesa libudev mesa-megadriver "
+
+CHROMIUM_EXTRA_ARGS ?= " \
+	${@bb.utils.contains('PACKAGECONFIG', 'use-egl', '--use-gl=egl', '', d)} \
+	${@bb.utils.contains('PACKAGECONFIG', 'ozone-gbm', '--ozone-platform=gbm', '', d)} \
+"
+
 # OZONE GBM flag.
-CHROMIUM_ENABLE_GBM ?= "0"
+CHROMIUM_ENABLE_GBM = "${@bb.utils.contains('PACKAGECONFIG', 'ozone-gbm', '1', '0', d)}"
 
 python() {
     if d.getVar('CHROMIUM_ENABLE_GBM', True) == '1':
         d.appendVar('DEPENDS_remove', "gtk+ libxss")
-        d.appendVar('DEPENDS', " virtual/egl udev")
         # -Duse_brlapi=0 -Dremoting=0 for lack of some libraries.
         d.appendVar('CHROMIUM_EXTRA_GYP_DEFINES', "-Duse_ozone=1 -Dchromeos=1 -Dozone_platform_gbm=1 -Duse_brlapi=0 -Dremoting=0")
-        d.appendVar('RDEPENDS_chromium', "libegl-mesa liberation-fonts libgbm libglapi libgles1-mesa libgles2-mesa libudev mesa-megadriver")
 }
 
 do_configure() {
