@@ -22,7 +22,6 @@ DEPENDS = "xz-native pciutils pulseaudio cairo nss zlib-native libav cups ninja-
 SRC_URI = "\
         http://gsdview.appspot.com/chromium-browser-official/${P}.tar.xz \
         file://include.gypi \
-        file://oe-defaults.gypi \
         ${@bb.utils.contains('PACKAGECONFIG', 'component-build', 'file://component-build.gypi', '', d)} \
         file://google-chrome \
         file://google-chrome.desktop \
@@ -124,7 +123,6 @@ CHROMIUM_EXTRA_GYP_DEFINES += " \
 	-Ddisable_fatal_linker_warnings=1 \
 	${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '', '-Dlinux_use_gold_binary=0', d)} \
 	${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '', '-Dlinux_use_gold_flags=0', d)} \
-	-I ${WORKDIR}/oe-defaults.gypi \
 	-I ${WORKDIR}/include.gypi \
 	${@bb.utils.contains('PACKAGECONFIG', 'component-build', '-I ${WORKDIR}/component-build.gypi', '', d)} \
 	-f ninja \
