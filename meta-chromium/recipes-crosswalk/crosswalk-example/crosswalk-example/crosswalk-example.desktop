@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Crosswalk Example
-Comment=Crosswalk Example App
-Exec=/usr/bin/xwalk-example
-Terminal=false
-Icon=/usr/lib/xwalk-example/crosswalk.png
-Categories=Application;
