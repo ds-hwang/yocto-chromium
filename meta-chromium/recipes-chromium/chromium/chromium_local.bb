@@ -12,10 +12,9 @@ SRC_URI = "\
         file://google-chrome.desktop \
 "
 
+GYP_DEFINES = "clang=0 host_clang=0 "
+
 CHROMIUM_EXTRA_GYP_DEFINES += " \
-	-Dangle_use_commit_id=0 \
-	-Dclang=0 \
-	-Dhost_clang=0 \
 	-I ${WORKDIR}/include.gypi \
 	${@bb.utils.contains('PACKAGECONFIG', 'component-build', '-I ${WORKDIR}/component-build.gypi', '', d)} \
 "
@@ -24,17 +23,13 @@ CHROMIUM_EXTRA_GYP_DEFINES += " \
 ## use_gnome_keyring : gnome keyring library
 ## use_kerberos : libkrb5
 ## disable_fatal_linker_warnings : hidden symbol 'sqlite3_XXX'
-CHROMIUM_EXTRA_GYP_DEFINES += " \
-    -Duse_gnome_keyring=0 \
-    -Duse_kerberos=0 \
-    -Ddisable_fatal_linker_warnings=1 \
-"
+GYP_DEFINES += " use_gnome_keyring=0  use_kerberos=0  disable_fatal_linker_warnings=1"
 
-GOLD_DEFINES = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '', '-Dlinux_use_gold_binary=0 -Dlinux_use_gold_flags=0', d)}"
+GOLD_DEFINES = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '', ' linux_use_gold_binary=0 linux_use_gold_flags=0', d)}"
 
 # if icecc is used, don't use gold.
-CHROMIUM_EXTRA_GYP_DEFINES += " \
-    ${@bb.utils.contains('INHERIT', 'icecc', '-Dlinux_use_bundled_binutils=0 -Dlinux_use_debug_fission=0', '${GOLD_DEFINES}', d)} \
+GYP_DEFINES += " \
+    ${@bb.utils.contains('INHERIT', 'icecc', ' linux_use_bundled_binutils=0 linux_use_debug_fission=0', '${GOLD_DEFINES}', d)} \
 "
 
 # Set this variable with the path of your chromium checkout after
@@ -69,7 +64,7 @@ inherit gettext
 
 ARMFPABI_armv7a = "${@bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'arm_float_abi=hard', 'arm_float_abi=softfp', d)}"
 
-GYP_DEFINES = "${ARMFPABI} release_extra_cflags='-Wno-error=unused-local-typedefs' sysroot=''"
+GYP_DEFINES += " ${ARMFPABI}"
 
 PACKAGECONFIG[use-egl] = ",, virtual/egl virtual/libgles2 "
 PACKAGECONFIG[ozone-gbm] = ",, virtual/egl udev , libegl-mesa liberation-fonts libgbm libglapi libgles1-mesa libgles2-mesa libudev mesa-megadriver "
@@ -86,7 +81,7 @@ python() {
     if d.getVar('CHROMIUM_ENABLE_GBM', True) == '1':
         d.appendVar('DEPENDS_remove', "gtk+ libxss")
         # -Duse_brlapi=0 -Dremoting=0 for lack of some libraries.
-        d.appendVar('CHROMIUM_EXTRA_GYP_DEFINES', "-Duse_ozone=1 -Dchromeos=1 -Dozone_platform_gbm=1 -Duse_brlapi=0 -Dremoting=0")
+        d.appendVar('GYP_DEFINES', " use_ozone=1 chromeos=1 ozone_platform_gbm=1 use_brlapi=0 remoting=0")
 }
 
 do_configure() {
