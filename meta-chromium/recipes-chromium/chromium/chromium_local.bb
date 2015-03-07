@@ -1,6 +1,11 @@
 # Recipe files compiles chromium using local chromium source pointed by CHROMIUM_EXTRA_GYP_DEFINES
+# Must set values for these variables:
+#    * CHROMIUM_LOCAL_PATH : "/path/to/my/chromium/checkout/src"
 # Optionally, set values for these variables:
-#    * CHROMIUM_ENABLE_GBM
+#    * CHROMIUM_OUT_DIR : which directory do you want to build. default is "out"
+#    * PACKAGECONFIG_append_pn : choose more packages ex> PACKAGECONFIG_append_pn-chromium = " component-build ozone-gbm"
+#    * CHROMIUM_EXTRA_GYP_DEFINES : additional GYP_DEFINES ex> CHROMIUM_EXTRA_GYP_DEFINES = "-Dwerror="
+
 
 DESCRIPTION = "Chromium browser"
 LICENSE = "BSD"
