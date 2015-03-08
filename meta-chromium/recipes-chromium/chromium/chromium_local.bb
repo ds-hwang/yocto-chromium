@@ -9,7 +9,7 @@
 
 DESCRIPTION = "Chromium browser"
 LICENSE = "BSD"
-DEPENDS = "xz-native pciutils pulseaudio cairo nss zlib-native libav cups ninja-native gconf libexif pango libdrm"
+DEPENDS = "xz-native pciutils pulseaudio cairo nss zlib-native libav cups ninja-native gconf libexif pango libdrm gtk+ "
 SRC_URI = "\
         file://include.gypi \
         ${@bb.utils.contains('PACKAGECONFIG', 'component-build', 'file://component-build.gypi', '', d)} \
@@ -28,7 +28,7 @@ CHROMIUM_EXTRA_GYP_DEFINES += " \
 ## use_gnome_keyring : gnome keyring library
 ## use_kerberos : libkrb5
 ## disable_fatal_linker_warnings : hidden symbol 'sqlite3_XXX'
-GYP_DEFINES += " use_gnome_keyring=0  use_kerberos=0  disable_fatal_linker_warnings=1"
+GYP_DEFINES += " use_gnome_keyring=0  use_kerberos=0 disable_fatal_linker_warnings=1 "
 
 GOLD_DEFINES = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '', ' linux_use_gold_binary=0 linux_use_gold_flags=0', d)}"
 
@@ -84,7 +84,7 @@ CHROMIUM_ENABLE_GBM = "${@bb.utils.contains('PACKAGECONFIG', 'ozone-gbm', '1', '
 
 python() {
     if d.getVar('CHROMIUM_ENABLE_GBM', True) == '1':
-        d.appendVar('DEPENDS_remove', "gtk+ libxss")
+        d.appendVar('DEPENDS_remove', "libxss")
         # -Duse_brlapi=0 -Dremoting=0 for lack of some libraries.
         d.appendVar('GYP_DEFINES', " use_ozone=1 chromeos=1 ozone_platform_gbm=1 use_brlapi=0 remoting=0")
 }
