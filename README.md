@@ -135,7 +135,7 @@ flash it:
 You are able now to boot the flash drive in your hardware and play around with
 Chromium browser.
 
-## Ozeon GBM
+## Ozone GBM
 * change `local.conf` as follows to build Chromium Ozone GBM
  * Add "ozone-gbm" to "PACKAGECONFIG"
  * GBM requires the latest version of kernel
@@ -146,7 +146,7 @@ PREFERRED_VERSION_linux-yocto = "3.17%"
 
 When you build whole yocto image, use `core-image-minimal` which doesn't include X11 and window manager.
   ```
-  $ bitbake core-image-sato
+  $ bitbake core-image-minimal
   ```
 
 
