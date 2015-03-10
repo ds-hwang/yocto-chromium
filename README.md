@@ -51,7 +51,7 @@ then download the needed stuff:
   $ git clone https://github.com/otcshare/yocto-chromium.git
   ```
 
-* If you want stable branch of poky, checkout `git checkout dizzy`. I usually work on master.
+* If you want stable branch of poky, checkout `git checkout dizzy`. I usually work on master. I currently use `2f8e5a8be1b2baf1aa9cf275f74a906b7597a45b` commit.
 * jump to its build environment:
 
   ```
@@ -93,6 +93,7 @@ CHROMIUM_LOCAL_PATH = "/home/dshwang/chromium/src"
 CHROMIUM_OUT_DIR = "out_yocto"
 # if you want to build shared library
 PACKAGECONFIG_append_pn-chromium = " component-build"
+IMAGE_INSTALL_append = " chromium"
   ```
 
 Now close the file and let's build whole yocto image including chromium also. `core-image-sato` is the referece image including window manager using X11.
