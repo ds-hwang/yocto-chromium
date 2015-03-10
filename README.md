@@ -48,7 +48,7 @@ then download the needed stuff:
   $ cd yocto/
 
   $ git clone http://git.yoctoproject.org/git/poky
-  $ git clone https://github.com/ds-hwang/meta-browser.git
+  $ git clone https://github.com/otcshare/yocto-chromium.git
   ```
 
 * If you want stable branch of poky, checkout `git checkout dizzy`. I usually work on master.
