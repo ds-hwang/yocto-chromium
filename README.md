@@ -200,6 +200,45 @@ BBLAYERS ?= " \
 
 ```
 
+## How to use sshfs
+* install sshfs on your machine, then add yourself to the fuse group:
+ * Refer [Ubuntu SSHFS](https://help.ubuntu.com/community/SSHFS)
+```
+> sudo apt-get install sshfs
+> sudo gpasswd -a $USER fuse
+```
+
+* ssh to device
+```
+> ssh root@$<YOCTOURL>
+$
+```
+
+* (optional) you can use bash. Do you remember we added bash package on the image :)
+```
+$ bash
+```
+
+* ssh from device to your machine because it loads some kernel module, which means sshfs has a bug not-loading it.
+```
+$ ssh <ID>@<HOST>
+> [crtl + d]
+```
+
+* sshfs mounts host chromium directory on device
+```
+$ mkdir remote
+$ sshfs -o idmap=user <ID>@<HOST>:<chromium path> /home/root/remote/
+```
+
+* Enjoy hack
+
+* unmount if needed
+```
+fusermount -u /home/root/remote
+```
+
+
 ## my conf
 * Refer to my [local.conf](reference_conf/local.conf) and [bblayers.conf](reference_conf/bblayers.conf)
 
