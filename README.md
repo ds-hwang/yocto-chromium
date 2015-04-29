@@ -51,7 +51,7 @@ then download the needed stuff:
   $ git clone https://github.com/otcshare/yocto-chromium.git
   ```
 
-* If you want stable branch of poky, checkout `git checkout dizzy`. I usually work on master. I currently use `2f8e5a8be1b2baf1aa9cf275f74a906b7597a45b` commit.
+* If you want stable branch of poky, checkout `git checkout dizzy`. I usually work on master.
 * jump to its build environment:
 
   ```
@@ -142,7 +142,7 @@ Chromium browser.
  * GBM requires the latest version of kernel
 ```
 PACKAGECONFIG_append_pn-chromium = " component-build ozone-gbm"
-PREFERRED_VERSION_linux-yocto = "3.17%"
+PREFERRED_VERSION_linux-yocto = "3.19%"
 ```
 
 When you build whole yocto image, use `core-image-minimal` which doesn't include X11 and window manager.
